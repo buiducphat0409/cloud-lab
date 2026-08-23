@@ -1,8 +1,6 @@
-
-
 import { useEffect, useState } from "react";
 
-const API_URL = "/api/students";
+const API_URL = "http://localhost:5000/api/students";
 
 function App() {
   const [students, setStudents] = useState([]);
@@ -10,7 +8,7 @@ function App() {
   const [form, setForm] = useState({
     studentId: "",
     name: "",
-    email: ""
+    email: "",
   });
 
   const [editingId, setEditingId] = useState(null);
@@ -41,7 +39,7 @@ function App() {
   const handleChange = (event) => {
     setForm({
       ...form,
-      [event.target.name]: event.target.value
+      [event.target.name]: event.target.value,
     });
   };
 
@@ -53,18 +51,16 @@ function App() {
     event.preventDefault();
 
     try {
-      const url = editingId
-        ? `${API_URL}/${editingId}`
-        : API_URL;
+      const url = editingId ? `${API_URL}/${editingId}` : API_URL;
 
       const method = editingId ? "PUT" : "POST";
 
       const response = await fetch(url, {
         method,
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(form)
+        body: JSON.stringify(form),
       });
 
       if (!response.ok) {
@@ -74,7 +70,7 @@ function App() {
       setForm({
         studentId: "",
         name: "",
-        email: ""
+        email: "",
       });
 
       setEditingId(null);
@@ -93,7 +89,7 @@ function App() {
     setForm({
       studentId: student.studentId,
       name: student.name,
-      email: student.email
+      email: student.email,
     });
 
     setEditingId(student._id);
@@ -104,9 +100,7 @@ function App() {
   // =========================
 
   const handleDelete = async (id) => {
-    const confirmDelete = window.confirm(
-      "Bạn có chắc muốn xóa sinh viên này?"
-    );
+    const confirmDelete = window.confirm("Bạn có chắc muốn xóa sinh viên này?");
 
     if (!confirmDelete) {
       return;
@@ -114,7 +108,7 @@ function App() {
 
     try {
       await fetch(`${API_URL}/${id}`, {
-        method: "DELETE"
+        method: "DELETE",
       });
 
       fetchStudents();
@@ -168,7 +162,7 @@ function App() {
               setForm({
                 studentId: "",
                 name: "",
-                email: ""
+                email: "",
               });
             }}
           >
@@ -195,15 +189,9 @@ function App() {
               <td>{student.email}</td>
 
               <td>
-                <button onClick={() => handleEdit(student)}>
-                  Sửa
-                </button>
+                <button onClick={() => handleEdit(student)}>Sửa</button>
 
-                <button
-                  onClick={() => handleDelete(student._id)}
-                >
-                  Xóa
-                </button>
+                <button onClick={() => handleDelete(student._id)}>Xóa</button>
               </td>
             </tr>
           ))}
@@ -217,20 +205,20 @@ const styles = {
   container: {
     maxWidth: "900px",
     margin: "40px auto",
-    fontFamily: "Arial"
+    fontFamily: "Arial",
   },
 
   form: {
     display: "flex",
     gap: "10px",
     marginBottom: "30px",
-    flexWrap: "wrap"
+    flexWrap: "wrap",
   },
 
   table: {
     width: "100%",
-    borderCollapse: "collapse"
-  }
+    borderCollapse: "collapse",
+  },
 };
 
 export default App;

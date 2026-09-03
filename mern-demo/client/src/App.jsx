@@ -119,7 +119,7 @@ function App() {
 
   return (
     <div style={styles.container}>
-      <h1>Quản lý sinh viên</h1>
+      <h1>Quản lý sinh viên - Version 2.0</h1>
 
       <form onSubmit={handleSubmit} style={styles.form}>
         <input

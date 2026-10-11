@@ -25,6 +25,15 @@ app.use(
 
 app.use(express.json());
 
+// Health Check Endpoint for Cloud PaaS Monitoring
+app.get("/health", (req, res) => {
+  res.status(200).json({
+    status: "UP",
+    timestamp: new Date(),
+    uptime: process.uptime(),
+  });
+});
+
 const PORT = process.env.PORT || 5000;
 const MONGODB_URI = process.env.MONGODB_URI;
 
@@ -38,7 +47,9 @@ mongoose
     console.log("MongoDB Atlas connected");
 
     app.listen(PORT, () => {
-      console.log(`Server đang chạy tại http://localhost:${PORT}`);
+      console.log(
+        `MERN Backend v1.2 - Auto Deploy Test Port đang chạy:${PORT}`,
+      );
     });
   })
   .catch((error) => {

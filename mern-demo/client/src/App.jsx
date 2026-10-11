@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 
 //const API_URL = "http://localhost:5000/api/students";
-const API_URL = "https://mern-backend-buiducphat0409.onrender.com/api/students";
+//const API_URL = "https://mern-backend-buiducphat0409.onrender.com/api/students";
+const API_URL = "/api/students";
 
 function App() {
   const [students, setStudents] = useState([]);
@@ -122,6 +123,10 @@ function App() {
     <div style={styles.container}>
       <h1>Quản lý sinh viên - Version 2.0</h1>
 
+      <header>
+        <p>Phiên bản 2.0 - Production Cloud PaaS (Auto-Deployed)</p>
+      </header>
+
       <form onSubmit={handleSubmit} style={styles.form}>
         <input
           type="text"
@@ -198,6 +203,10 @@ function App() {
           ))}
         </tbody>
       </table>
+
+      <footer>
+        <p>Phiên bản 2.0 - Production Cloud PaaS (Auto-Deployed)</p>
+      </footer>
     </div>
   );
 }

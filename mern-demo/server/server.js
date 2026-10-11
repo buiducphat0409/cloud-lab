@@ -5,7 +5,24 @@ require("dotenv").config();
 
 const app = express();
 
-app.use(cors());
+const allowedOrigins = [
+  process.env.CLIENT_URL,
+  "http://localhost:5173",
+  "http://localhost:3000",
+];
+
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Origin không được phép bởi CORS"));
+      }
+    },
+  }),
+);
+
 app.use(express.json());
 
 const PORT = process.env.PORT || 5000;
@@ -36,22 +53,22 @@ const studentSchema = new mongoose.Schema(
   {
     studentId: {
       type: String,
-      required: true
+      required: true,
     },
 
     name: {
       type: String,
-      required: true
+      required: true,
     },
 
     email: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
   {
-    timestamps: true
-  }
+    timestamps: true,
+  },
 );
 
 const Student = mongoose.model("Student", studentSchema);
@@ -62,7 +79,7 @@ const Student = mongoose.model("Student", studentSchema);
 
 app.get("/api/hello", (req, res) => {
   res.json({
-    message: "Backend MERN đang hoạt động!"
+    message: "Backend MERN đang hoạt động!",
   });
 });
 
@@ -78,7 +95,7 @@ app.get("/api/students", async (req, res) => {
   } catch (error) {
     res.status(500).json({
       message: "Lỗi lấy danh sách sinh viên",
-      error: error.message
+      error: error.message,
     });
   }
 });
@@ -94,14 +111,14 @@ app.post("/api/students", async (req, res) => {
     const student = await Student.create({
       studentId,
       name,
-      email
+      email,
     });
 
     res.status(201).json(student);
   } catch (error) {
     res.status(400).json({
       message: "Lỗi thêm sinh viên",
-      error: error.message
+      error: error.message,
     });
   }
 });
@@ -117,17 +134,17 @@ app.put("/api/students/:id", async (req, res) => {
       {
         studentId: req.body.studentId,
         name: req.body.name,
-        email: req.body.email
+        email: req.body.email,
       },
       {
         new: true,
-        runValidators: true
-      }
+        runValidators: true,
+      },
     );
 
     if (!student) {
       return res.status(404).json({
-        message: "Không tìm thấy sinh viên"
+        message: "Không tìm thấy sinh viên",
       });
     }
 
@@ -135,7 +152,7 @@ app.put("/api/students/:id", async (req, res) => {
   } catch (error) {
     res.status(400).json({
       message: "Lỗi cập nhật sinh viên",
-      error: error.message
+      error: error.message,
     });
   }
 });
@@ -150,18 +167,18 @@ app.delete("/api/students/:id", async (req, res) => {
 
     if (!student) {
       return res.status(404).json({
-        message: "Không tìm thấy sinh viên"
+        message: "Không tìm thấy sinh viên",
       });
     }
 
     res.json({
       message: "Xóa sinh viên thành công",
-      student
+      student,
     });
   } catch (error) {
     res.status(400).json({
       message: "Lỗi xóa sinh viên",
-      error: error.message
+      error: error.message,
     });
   }
 });
